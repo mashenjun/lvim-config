@@ -1,0 +1,7 @@
+{
+  "TODO comment": {
+    "prefix": "tbd",
+    "body": "// TODO(shenjun): ${1}",
+    "description": "TODO comment"
+  }
+}
