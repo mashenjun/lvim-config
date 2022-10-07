@@ -184,7 +184,6 @@ lvim.plugins = {
   {"kana/vim-textobj-entire",
     requires = {"kana/vim-textobj-user"}
   },
-    -- {"folke/tokyonight.nvim"},
 --     {
 --       "folke/trouble.nvim",
 --       cmd = "TroubleToggle",
@@ -193,6 +192,7 @@ lvim.plugins = {
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
   -- { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
+  { "BufWinEnter", "*.ts", "setlocal ts=4 sw=4" },
   { "BufWinEnter", "*.go", "setlocal ts=4 sw=4" },
 }
 
