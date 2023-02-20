@@ -12,7 +12,8 @@ an executable
 lvim.log.level = "warn"
 lvim.format_on_save = true
 -- lvim.colorscheme = "synthwave84"
-lvim.colorscheme = "darkplus"
+-- lvim.colorscheme = "darkplus"
+lvim.colorscheme = "catppuccin"
 
 -- custom settings
 lvim.transparent_window = true
@@ -22,10 +23,14 @@ vim.opt.timeoutlen = 300
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+-- switch between buffers
+lvim.keys.normal_mode["H"] = ":bp<cr>"
+lvim.keys.normal_mode["L"] = ":bn<cr>"
 
-vim.api.nvim_set_keymap('n', 'oo', 'o<Esc>k', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', 'OO', 'O<Esc>j', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('v', 'p', '"_dP', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', 'oo', 'o<Esc>k', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'OO', 'O<Esc>j', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', 'p', '"_dP', { noremap = true, silent = true })
+
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
@@ -66,11 +71,12 @@ lvim.builtin.which_key.setup.triggers_blacklist = {
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.dashboard.active = true
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -86,7 +92,6 @@ lvim.builtin.treesitter.ensure_installed = {
   "java",
   "yaml",
   "go",
-  "rust",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -101,6 +106,8 @@ lvim.builtin.which_key.active = true
 -- ---@usage Select which servers should be configured manually. Requires `:LvimCacheRest` to take effect.
 -- See the full default list `:lua print(vim.inspect(lvim.lsp.override))`
 -- vim.list_extend(lvim.lsp.override, { "pyright" })
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "rust_analyzer" })
+-- vim.lsp.set_log_level("debug")
 
 -- ---@usage setup a server -- see: https://www.lunarvim.org/languages/#overriding-the-default-configuration
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
@@ -152,49 +159,66 @@ lvim.builtin.which_key.active = true
 
 -- Additional Plugins
 lvim.plugins = {
-    {"artanikin/vim-synthwave84",
-      config = function ()
-        vim.cmd("hi Comment guifg=#8d90a3 guibg=NONE guisp=NONE gui=italic cterm=italic")
-      end
-    },
-    {"LunarVim/darkplus.nvim"},
-    {"tpope/vim-abolish"},
-    {"tpope/vim-surround"},
-    {"MattesGroeger/vim-bookmarks",
-      config = function()
-        vim.api.nvim_set_var("bookmark_no_default_key_mappings", 1)
-        vim.api.nvim_set_var("bookmark_save_per_working_dir", 1)
-        vim.api.nvim_set_var("bookmark_auto_save", 1)
-        -- vim.api.nvim_set_var("bookmark_location_list", 1)
-        vim.api.nvim_set_var("bookmark_auto_close", 1)
-        vim.api.nvim_set_keymap("n", "<F3>",":BookmarkToggle<CR>", { noremap = true, silent = true})
-        vim.api.nvim_set_keymap("n", "<leader><F3>",":BookmarkShowAll<CR>", { noremap = true, silent = true})
-      end
-    },
-  {"lukas-reineke/indent-blankline.nvim",
+  { "artanikin/vim-synthwave84",
+    config = function()
+      vim.cmd("hi Comment guifg=#8d90a3 guibg=NONE guisp=NONE gui=italic cterm=italic")
+    end
+  },
+  { "LunarVim/darkplus.nvim" },
+  {
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function()
+      vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+      require("catppuccin").setup()
+      vim.api.nvim_command "colorscheme catppuccin"
+    end
+  },
+  { "tpope/vim-abolish" },
+  { "tpope/vim-surround" },
+  { "MattesGroeger/vim-bookmarks",
+    config = function()
+      vim.api.nvim_set_var("bookmark_no_default_key_mappings", 1)
+      vim.api.nvim_set_var("bookmark_save_per_working_dir", 1)
+      vim.api.nvim_set_var("bookmark_auto_save", 1)
+      -- vim.api.nvim_set_var("bookmark_location_list", 1)
+      vim.api.nvim_set_var("bookmark_auto_close", 1)
+      vim.api.nvim_set_keymap("n", "<F3>", ":BookmarkToggle<CR>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<leader><F3>", ":BookmarkShowAll<CR>", { noremap = true, silent = true })
+    end
+  },
+  { "lukas-reineke/indent-blankline.nvim",
     config = function()
       require("indent_blankline").setup {
-        buftype_exclude = {'terminal', 'nofile'},
-        filetype_exclude = {'packer', 'dashboard', 'floatline', 'help'},
+        buftype_exclude = { 'terminal', 'nofile' },
+        filetype_exclude = { 'packer', 'dashboard', 'floatline', 'help' },
         show_current_context = true,
       }
     end
   },
-  {"kana/vim-textobj-user"},
-  {"kana/vim-textobj-entire",
-    requires = {"kana/vim-textobj-user"}
+  { "kana/vim-textobj-user" },
+  { "kana/vim-textobj-entire",
+    requires = { "kana/vim-textobj-user" }
   },
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
+  --     {
+  --       "folke/trouble.nvim",
+  --       cmd = "TroubleToggle",
+  --     },
 }
+
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
-lvim.autocommands.custom_groups = {
-  -- { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
-  { "BufWinEnter", "*.ts", "setlocal ts=4 sw=4" },
-  { "BufWinEnter", "*.go", "setlocal ts=4 sw=4" },
-}
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  pattern = { "*.ts", "*.go" },
+  -- enable wrap mode for json files only
+  command = "setlocal ts=4 sw=4",
+})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "zsh",
+--   callback = function()
+--     -- let treesitter use bash highlight for zsh files as well
+--     require("nvim-treesitter.highlight").attach(0, "bash")
+--   end,
+-- })
 
 -- Additional Operations
 require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.config/lvim/my-snippets" } })
