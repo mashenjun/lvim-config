@@ -1,6 +1,9 @@
 {
-  "env": {
-    "GOOS": "linux",
-    "GOARCH": "amd64"
+  "gopls": {
+    "env": {
+      "GOOS": "linux",
+      "GOARCH": "amd64",
+      "GOFLAGS": "-mod=mod"
+    }
   }
 }
