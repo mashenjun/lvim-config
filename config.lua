@@ -17,7 +17,7 @@ lvim.colorscheme = "catppuccin"
 
 -- custom settings
 lvim.transparent_window = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.timeoutlen = 300
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
