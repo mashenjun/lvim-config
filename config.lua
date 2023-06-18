@@ -11,8 +11,6 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
--- lvim.colorscheme = "synthwave84"
--- lvim.colorscheme = "darkplus"
 lvim.colorscheme = "catppuccin"
 
 -- custom settings
@@ -26,11 +24,16 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- switch between buffers
 lvim.keys.normal_mode["H"] = ":bp<cr>"
 lvim.keys.normal_mode["L"] = ":bn<cr>"
-
+-- exit insert mode
+lvim.keys.insert_mode["jk"] = "<Esc>"
+lvim.keys.insert_mode["kj"] = "<Esc>"
+-- helper keybinding
 vim.api.nvim_set_keymap('n', 'oo', 'o<Esc>k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'OO', 'O<Esc>j', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', 'p', '"_dP', { noremap = true, silent = true })
 
+-- for plugin setting
+lvim.builtin.treesitter.matchup.enable = true
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
@@ -73,8 +76,8 @@ lvim.builtin.which_key.setup.triggers_blacklist = {
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
-lvim.builtin.terminal.active = true
+-- lvim.builtin.notify.active = true
+-- lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
@@ -167,7 +170,7 @@ lvim.plugins = {
   { "LunarVim/darkplus.nvim" },
   {
     "catppuccin/nvim",
-    as = "catppuccin",
+    name = "catppuccin",
     config = function()
       vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
       require("catppuccin").setup()
@@ -198,7 +201,37 @@ lvim.plugins = {
   },
   { "kana/vim-textobj-user" },
   { "kana/vim-textobj-entire",
-    requires = { "kana/vim-textobj-user" }
+    dependencies = { "kana/vim-textobj-user" }
+  },
+  { "andymass/vim-matchup",
+      init = function()
+        vim.g.matchup_matchparen_offscreen = { method = "popup" }
+      end,
+  },
+  { "tpope/vim-repeat" },
+  { "ethanholz/nvim-lastplace",
+    event = "BufRead",
+    config = function()
+     require("nvim-lastplace").setup({
+      lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+      lastplace_ignore_filetype = {
+       "gitcommit", "gitrebase", "svn", "hgcommit",
+      },
+      lastplace_open_folds = true,
+     })
+    end,
+   },
+  { "folke/lsp-colors.nvim",
+    event = "BufRead",
+  },
+  { "simrat39/symbols-outline.nvim",
+    config = function()
+      require('symbols-outline').setup()
+    end
+  },
+  { "npxbr/glow.nvim",
+    ft = {"markdown"}
+    -- build = "yay -S glow"
   },
   --     {
   --       "folke/trouble.nvim",
