@@ -31,6 +31,11 @@ lvim.keys.insert_mode["kj"] = "<Esc>"
 vim.api.nvim_set_keymap('n', 'oo', 'o<Esc>k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'OO', 'O<Esc>j', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', 'p', '"_dP', { noremap = true, silent = true })
+-- move lines with selected
+vim.api.nvim_set_keymap('n', '<C-j>', ":m .+1<CR>==", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-k>', ":m .-2<CR>==", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 
 -- for plugin setting
 lvim.builtin.treesitter.matchup.enable = true
