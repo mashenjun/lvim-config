@@ -16,6 +16,8 @@ lvim.colorscheme = "catppuccin"
 -- custom settings
 lvim.transparent_window = true
 vim.opt.relativenumber = false
+vim.opt.foldmethod = "indent"
+vim.opt.foldenable = false
 vim.opt.timeoutlen = 300
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -39,6 +41,7 @@ vim.api.nvim_set_keymap('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, sile
 
 -- for plugin setting
 lvim.builtin.treesitter.matchup.enable = true
+
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
@@ -100,6 +103,8 @@ lvim.builtin.treesitter.ensure_installed = {
   "java",
   "yaml",
   "go",
+  "vim",
+  "vimdoc",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -164,15 +169,21 @@ lvim.builtin.which_key.active = true
 --     filetypes = { "javascript", "python" },
 --   },
 -- }
+--
+
+-- enable gopls serverside logging.
+-- require("lvim.lsp.manager").setup("gopls", {
+-- 	cmd = {'gopls', '-logfile=/tmp/gopls.log', '-rpc.trace'},
+-- })
 
 -- Additional Plugins
 lvim.plugins = {
-  { "artanikin/vim-synthwave84",
-    config = function()
-      vim.cmd("hi Comment guifg=#8d90a3 guibg=NONE guisp=NONE gui=italic cterm=italic")
-    end
-  },
-  { "LunarVim/darkplus.nvim" },
+  -- { "artanikin/vim-synthwave84",
+  --   config = function()
+  --     vim.cmd("hi Comment guifg=#8d90a3 guibg=NONE guisp=NONE gui=italic cterm=italic")
+  --   end
+  -- },
+  -- { "LunarVim/darkplus.nvim" },
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -209,6 +220,7 @@ lvim.plugins = {
     dependencies = { "kana/vim-textobj-user" }
   },
   { "andymass/vim-matchup",
+      commit = "156367e",
       init = function()
         vim.g.matchup_matchparen_offscreen = { method = "popup" }
       end,
@@ -238,6 +250,25 @@ lvim.plugins = {
     ft = {"markdown"}
     -- build = "yay -S glow"
   },
+  { "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {
+      modes = {
+        char = {
+          enabled = false
+        }
+      }
+    },
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    }
+  }
   --     {
   --       "folke/trouble.nvim",
   --       cmd = "TroubleToggle",
