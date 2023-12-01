@@ -18,7 +18,7 @@ lvim.transparent_window = true
 vim.opt.relativenumber = false
 vim.opt.foldmethod = "indent"
 vim.opt.foldenable = false
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 350
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
