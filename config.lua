@@ -22,10 +22,12 @@ vim.opt.timeoutlen = 350
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<C-s>"] = ":w<CR>"
+-- close quickfix window
+lvim.keys.normal_mode["<leader>C"] = ":ccl<CR>"
 -- switch between buffers
-lvim.keys.normal_mode["H"] = ":bp<cr>"
-lvim.keys.normal_mode["L"] = ":bn<cr>"
+lvim.keys.normal_mode["H"] = ":bp<CR>"
+lvim.keys.normal_mode["L"] = ":bn<CR>"
 -- exit insert mode
 lvim.keys.insert_mode["jk"] = "<Esc>"
 lvim.keys.insert_mode["kj"] = "<Esc>"
@@ -184,13 +186,12 @@ lvim.plugins = {
   --   end
   -- },
   -- { "LunarVim/darkplus.nvim" },
-  {
-    "catppuccin/nvim",
+  { "catppuccin/nvim",
     name = "catppuccin",
     config = function()
       vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-      require("catppuccin").setup()
-      vim.api.nvim_command "colorscheme catppuccin"
+      -- require("catppuccin").setup()
+      -- vim.api.nvim_command "colorscheme catppuccin"
     end
   },
   { "tpope/vim-abolish" },
@@ -247,7 +248,7 @@ lvim.plugins = {
     end
   },
   { "npxbr/glow.nvim",
-    ft = {"markdown"}
+    ft = { "markdown" }
     -- build = "yay -S glow"
   },
   { "folke/flash.nvim",
@@ -268,7 +269,10 @@ lvim.plugins = {
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     }
-  }
+  },
+  { "fatih/vim-go",
+    ft = { "go" }
+  },
   --     {
   --       "folke/trouble.nvim",
   --       cmd = "TroubleToggle",
