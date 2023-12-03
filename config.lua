@@ -186,7 +186,8 @@ lvim.plugins = {
   --   end
   -- },
   -- { "LunarVim/darkplus.nvim" },
-  { "catppuccin/nvim",
+  {
+    "catppuccin/nvim",
     name = "catppuccin",
     config = function()
       vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
@@ -196,7 +197,8 @@ lvim.plugins = {
   },
   { "tpope/vim-abolish" },
   { "tpope/vim-surround" },
-  { "MattesGroeger/vim-bookmarks",
+  {
+    "MattesGroeger/vim-bookmarks",
     config = function()
       vim.api.nvim_set_var("bookmark_no_default_key_mappings", 1)
       vim.api.nvim_set_var("bookmark_save_per_working_dir", 1)
@@ -207,7 +209,8 @@ lvim.plugins = {
       vim.api.nvim_set_keymap("n", "<leader><F3>", ":BookmarkShowAll<CR>", { noremap = true, silent = true })
     end
   },
-  { "lukas-reineke/indent-blankline.nvim",
+  {
+    "lukas-reineke/indent-blankline.nvim",
     config = function()
       require("indent_blankline").setup {
         buftype_exclude = { 'terminal', 'nofile' },
@@ -217,41 +220,48 @@ lvim.plugins = {
     end
   },
   { "kana/vim-textobj-user" },
-  { "kana/vim-textobj-entire",
+  {
+    "kana/vim-textobj-entire",
     dependencies = { "kana/vim-textobj-user" }
   },
-  { "andymass/vim-matchup",
-      commit = "156367e",
-      init = function()
-        vim.g.matchup_matchparen_offscreen = { method = "popup" }
-      end,
+  {
+    "andymass/vim-matchup",
+    commit = "156367e",
+    init = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
   },
   { "tpope/vim-repeat" },
-  { "ethanholz/nvim-lastplace",
+  {
+    "ethanholz/nvim-lastplace",
     event = "BufRead",
     config = function()
-     require("nvim-lastplace").setup({
-      lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
-      lastplace_ignore_filetype = {
-       "gitcommit", "gitrebase", "svn", "hgcommit",
-      },
-      lastplace_open_folds = true,
-     })
+      require("nvim-lastplace").setup({
+        lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+        lastplace_ignore_filetype = {
+          "gitcommit", "gitrebase", "svn", "hgcommit",
+        },
+        lastplace_open_folds = true,
+      })
     end,
-   },
-  { "folke/lsp-colors.nvim",
+  },
+  {
+    "folke/lsp-colors.nvim",
     event = "BufRead",
   },
-  { "simrat39/symbols-outline.nvim",
+  {
+    "simrat39/symbols-outline.nvim",
     config = function()
       require('symbols-outline').setup()
     end
   },
-  { "npxbr/glow.nvim",
+  {
+    "npxbr/glow.nvim",
     ft = { "markdown" }
     -- build = "yay -S glow"
   },
-  { "folke/flash.nvim",
+  {
+    "folke/flash.nvim",
     event = "VeryLazy",
     ---@type Flash.Config
     opts = {
@@ -263,25 +273,26 @@ lvim.plugins = {
     },
     -- stylua: ignore
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     }
   },
-  { "fatih/vim-go",
+  {
+    "fatih/vim-go",
     ft = { "go" }
   },
   {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
-    config = function() 
-      require"lsp_signature".on_attach({
+    config = function()
+      require "lsp_signature".on_attach({
         hint_enable = true,
         floating_window = false,
         hint_prefix = " ",
-      }) 
+      })
     end,
   },
   {
@@ -295,12 +306,12 @@ lvim.plugins = {
     "rmagatti/goto-preview",
     config = function()
       require('goto-preview').setup({
-        width = 120; -- Width of the floating window
-        height = 25; -- Height of the floating window
-        default_mappings = true; -- Bind default mappings
-        debug = false; -- Print debug information
-        opacity = nil; -- 0-100 opacity level of the floating window where 100 is fully transparent.
-        post_open_hook = nil -- A function taking two arguments, a buffer and a window to be ran as a hook.
+        width = 120,             -- Width of the floating window
+        height = 25,             -- Height of the floating window
+        default_mappings = true, -- Bind default mappings
+        debug = false,           -- Print debug information
+        opacity = nil,           -- 0-100 opacity level of the floating window where 100 is fully transparent.
+        post_open_hook = nil     -- A function taking two arguments, a buffer and a window to be ran as a hook.
         -- You can use "default_mappings = true" setup option
         -- Or explicitly set keybindings
         -- vim.cmd("nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>")
