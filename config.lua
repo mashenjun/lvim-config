@@ -280,6 +280,7 @@ lvim.plugins = {
       require"lsp_signature".on_attach({
         hint_enable = true,
         floating_window = false,
+        hint_prefix = " ",
       }) 
     end,
   },
