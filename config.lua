@@ -281,17 +281,26 @@ lvim.plugins = {
     }
   },
   {
-    "fatih/vim-go",
-    ft = { "go" }
+    "crispgm/nvim-go",
+    enabled = true,
+    ft = { "go" },
+    config = function()
+      require('go').setup({
+        -- we only need the commands such as `:GoAddTags`, `:GoRemoveTags`
+        auto_format = false,
+        auto_lint = false,
+      })
+    end
   },
   {
     "ray-x/lsp_signature.nvim",
     event = "BufRead",
     config = function()
-      require "lsp_signature".on_attach({
+      require "lsp_signature".setup({
         hint_enable = true,
         floating_window = false,
-        hint_prefix = " ",
+        hint_prefix = " ",
+        -- hint_prefix = "󰍉 ",
       })
     end,
   },
@@ -346,6 +355,27 @@ lvim.plugins = {
         },
       })
     end,
+  },
+  {
+    "romgrk/nvim-treesitter-context",
+    config = function()
+      require("treesitter-context").setup {
+        enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
+        throttle = true, -- Throttles plugin updates (may improve performance)
+        max_lines = 1,   -- How many lines the window should span. Values <= 0 mean no limit.
+        patterns = {     -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+          -- For all filetypes
+          -- Note that setting an entry here replaces all other patterns for this entry.
+          -- By setting the 'default' entry below, you can control which nodes you want to
+          -- appear in the context window.
+          default = {
+            'class',
+            'function',
+            'method',
+          },
+        },
+      }
+    end
   },
   --     {
   --       "folke/trouble.nvim",
