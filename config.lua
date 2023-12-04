@@ -196,7 +196,15 @@ lvim.plugins = {
     end
   },
   { "tpope/vim-abolish" },
-  { "tpope/vim-surround" },
+  -- { "tpope/vim-surround" },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({})
+    end
+  },
   {
     "MattesGroeger/vim-bookmarks",
     config = function()
