@@ -283,6 +283,7 @@ lvim.plugins = {
   {
     "crispgm/nvim-go",
     enabled = true,
+    dependencies = { "nvim-lua/plenary.nvim" },
     ft = { "go" },
     config = function()
       require('go').setup({
@@ -377,6 +378,19 @@ lvim.plugins = {
       }
     end
   },
+  {
+    "folke/todo-comments.nvim",
+    enabled = true,
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      signs = false,
+      highlight = {
+        before = "",  -- "fg" or "bg" or empty
+        keyword = "", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+        after = "",
+      },
+    }
+  }
   --     {
   --       "folke/trouble.nvim",
   --       cmd = "TroubleToggle",
@@ -384,11 +398,11 @@ lvim.plugins = {
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  pattern = { "*.ts", "*.go" },
-  -- enable wrap mode for json files only
-  command = "setlocal ts=4 sw=4",
-})
+-- vim.api.nvim_create_autocmd("BufWinEnter", {
+--   pattern = { "*.ts", "*.go" },
+--   -- enable wrap mode for json files only
+--   command = "setlocal ts=4 sw=4",
+-- })
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "zsh",
 --   callback = function()
