@@ -11,7 +11,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "catppuccin"
+lvim.colorscheme = "everforest"
 
 -- custom settings
 lvim.transparent_window = true
@@ -36,12 +36,24 @@ vim.api.nvim_set_keymap('n', 'oo', 'o<Esc>k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'OO', 'O<Esc>j', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', 'p', '"_dP', { noremap = true, silent = true })
 -- move lines with selected
-vim.api.nvim_set_keymap('n', '<C-j>', ":m .+1<CR>==", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-k>', ":m .-2<CR>==", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<C-j>', ":m .+1<CR>==", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<C-k>', ":m .-2<CR>==", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+if vim.loop.os_uname().sysname == "Darwin" then
+  -- https://www.reddit.com/r/vim/comments/qwqygt/vim_seems_to_ignore_meta_key_mappings/
+  vim.api.nvim_set_keymap('n', '∆', ":m .+1<CR>==", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '˚', ":m .-2<CR>==", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('v', '∆', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('v', '˚', ":m '<-1<CR>gv=gv", { noremap = true, silent = true })
+else
+  vim.api.nvim_set_keymap('n', '<A-j>', ":m .+1<CR>==", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<A-k>', ":m .-2<CR>==", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('v', '<A-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('v', '<A-k>', ":m '<-1<CR>gv=gv", { noremap = true, silent = true })
+end
 
--- for plugin setting
+-- for buildin plugin setting
 lvim.builtin.treesitter.matchup.enable = true
 
 -- unmap a default keymapping
@@ -88,8 +100,8 @@ lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 -- lvim.builtin.notify.active = true
 -- lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.nvimtree.setup.view.side = "left"
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -112,6 +124,17 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.which_key.active = true
+lvim.builtin.dap.on_config_done = function(dap)
+  dap.adapters.go = {
+    type = 'server',
+    port = '${port}',
+    executable = {
+      command = 'dlv',
+      args = { 'dap', '-l', '127.0.0.1:${port}' },
+    }
+  }
+  require('dap.ext.vscode').load_launchjs(nil, {})
+end
 
 -- generic LSP settings
 
@@ -195,6 +218,19 @@ lvim.plugins = {
       -- vim.api.nvim_command "colorscheme catppuccin"
     end
   },
+  {
+    "neanias/everforest-nvim",
+    version = false,
+    enabled = true,
+    priority = 1000, -- make sure to load this before all the other start plugins
+    -- Optional; default configuration will be used if setup isn't called.
+    config = function()
+      require("everforest").setup({
+        background = "soft",
+      })
+    end,
+  },
+
   { "tpope/vim-abolish" },
   -- { "tpope/vim-surround" },
   {
@@ -207,6 +243,7 @@ lvim.plugins = {
   },
   {
     "MattesGroeger/vim-bookmarks",
+    enabled = true,
     config = function()
       vim.api.nvim_set_var("bookmark_no_default_key_mappings", 1)
       vim.api.nvim_set_var("bookmark_save_per_working_dir", 1)
