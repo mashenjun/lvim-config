@@ -1,0 +1,301 @@
+lvim.plugins = {
+  -- { "artanikin/vim-synthwave84",
+  --   config = function()
+  --     vim.cmd("hi comment guifg=#8d90a3 guibg=none guisp=none gui=italic cterm=italic")
+  --   end
+  -- },
+  -- { "lunarvim/darkplus.nvim" },
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      require("kanagawa").setup({})
+    end
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function()
+      -- vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+      require("catppuccin").setup({
+        flavour = "mocha",
+        no_italic = true,
+      })
+      -- vim.api.nvim_command "colorscheme catppuccin"
+    end
+  },
+  {
+    "neanias/everforest-nvim",
+    version = false,
+    enabled = true,
+    priority = 1000, -- make sure to load this before all the other start plugins
+    -- optional; default configuration will be used if setup isn't called.
+    config = function()
+      require("everforest").setup({
+        background = "medium",
+        disable_italic_comments = true,
+        italics = false,
+      })
+    end,
+  },
+
+  { "tpope/vim-abolish" },
+  -- { "tpope/vim-surround" },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({})
+    end
+  },
+  -- {
+  --   "mattesgroeger/vim-bookmarks",
+  --   enabled = true,
+  --   config = function()
+  --     vim.api.nvim_set_var("bookmark_no_default_key_mappings", 1)
+  --     vim.api.nvim_set_var("bookmark_save_per_working_dir", 1)
+  --     vim.api.nvim_set_var("bookmark_auto_save", 1)
+  --     -- vim.api.nvim_set_var("bookmark_location_list", 1)
+  --     vim.api.nvim_set_var("bookmark_auto_close", 1)
+  --     vim.api.nvim_set_keymap("n", "<f3>", ":bookmarktoggle<cr>", { noremap = true, silent = true })
+  --     vim.api.nvim_set_keymap("n", "<leader><f3>", ":bookmarkshowall<cr>", { noremap = true, silent = true })
+  --   end
+  -- },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("indent_blankline").setup {
+        buftype_exclude = { 'terminal', 'nofile' },
+        filetype_exclude = { 'packer', 'dashboard', 'floatline', 'help' },
+        show_current_context = true,
+      }
+    end
+  },
+  { "kana/vim-textobj-user" },
+  {
+    "kana/vim-textobj-entire",
+    dependencies = { "kana/vim-textobj-user" }
+  },
+  {
+    "andymass/vim-matchup",
+    commit = "156367e",
+    init = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
+  { "tpope/vim-repeat" },
+  {
+    "ethanholz/nvim-lastplace",
+    event = "bufread",
+    config = function()
+      require("nvim-lastplace").setup({
+        lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+        lastplace_ignore_filetype = {
+          "gitcommit", "gitrebase", "svn", "hgcommit",
+        },
+        lastplace_open_folds = true,
+      })
+    end,
+  },
+  {
+    "folke/lsp-colors.nvim",
+    event = "bufread",
+  },
+  {
+    "simrat39/symbols-outline.nvim",
+    config = function()
+      require('symbols-outline').setup()
+    end
+  },
+  {
+    "npxbr/glow.nvim",
+    ft = { "markdown" }
+    -- build = "yay -s glow"
+  },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      modes = {
+        char = {
+          enabled = false
+        }
+      }
+    },
+    -- stylua: ignore
+    keys = {
+      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "flash" },
+      { "s",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "flash treesitter" },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "remote flash" },
+      { "r",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "treesitter search" },
+      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "toggle flash search" },
+    }
+  },
+  {
+    "crispgm/nvim-go",
+    enabled = true,
+    dependencies = { "nvim-lua/plenary.nvim" },
+    ft = { "go" },
+    config = function()
+      require('go').setup({
+        -- we only need the commands such as `:goaddtags`, `:goremovetags`
+        auto_format = false,
+        auto_lint = false,
+      })
+    end
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "bufread",
+    config = function()
+      require "lsp_signature".setup({
+        hint_enable = true,
+        floating_window = false,
+        hint_prefix = " ",
+        -- hint_prefix = "󰍉 ",
+      })
+    end,
+  },
+  {
+    "ahmedkhalf/lsp-rooter.nvim",
+    event = "bufread",
+    config = function()
+      require("lsp-rooter").setup()
+    end,
+  },
+  {
+    "rmagatti/goto-preview",
+    config = function()
+      require('goto-preview').setup({
+        width = 120,             -- width of the floating window
+        height = 25,             -- height of the floating window
+        default_mappings = true, -- bind default mappings
+        debug = false,           -- print debug information
+        opacity = nil,           -- 0-100 opacity level of the floating window where 100 is fully transparent.
+        post_open_hook = nil     -- a function taking two arguments, a buffer and a window to be ran as a hook.
+        -- you can use "default_mappings = true" setup option
+        -- or explicitly set keybindings
+        -- vim.cmd("nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<cr>")
+        -- vim.cmd("nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<cr>")
+        -- vim.cmd("nnoremap gp <cmd>lua require('goto-preview').close_all_win()<cr>")
+      })
+    end
+  },
+  {
+    "kevinhwang91/nvim-bqf",
+    event = { "bufread", "bufnew" },
+    config = function()
+      require("bqf").setup({
+        auto_enable = true,
+        auto_resize_height = true,
+        preview = {
+          win_height = 20,
+          win_vheight = 15,
+          delay_syntax = 80,
+          border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
+        },
+        func_map = {
+          vsplit = "",
+          ptogglemode = "z,",
+          stoggleup = "",
+        },
+        filter = {
+          fzf = {
+            action_for = { ["ctrl-s"] = "split" },
+            extra_opts = { "--bind", "ctrl-o:toggle-all", "--prompt", "> " },
+          },
+        },
+      })
+    end,
+  },
+  {
+    "romgrk/nvim-treesitter-context",
+    config = function()
+      require("treesitter-context").setup {
+        enable = true,   -- enable this plugin (can be enabled/disabled later via commands)
+        throttle = true, -- throttles plugin updates (may improve performance)
+        max_lines = 1,   -- how many lines the window should span. values <= 0 mean no limit.
+        patterns = {     -- match patterns for ts nodes. these get wrapped to match at word boundaries.
+          -- for all filetypes
+          -- note that setting an entry here replaces all other patterns for this entry.
+          -- by setting the 'default' entry below, you can control which nodes you want to
+          -- appear in the context window.
+          default = {
+            'class',
+            'function',
+            'method',
+          },
+        },
+      }
+    end
+  },
+  {
+    "folke/todo-comments.nvim",
+    enabled = true,
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      signs = false,
+      highlight = {
+        before = "",  -- "fg" or "bg" or empty
+        keyword = "", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+        after = "",
+      },
+    }
+  },
+  {
+    "folke/zen-mode.nvim",
+    config = function()
+      require("zen-mode").setup({})
+    end
+  },
+  {
+    "nvim-telescope/telescope-dap.nvim",
+  },
+  -- {
+  --   "tomasky/bookmarks.nvim",
+  --   event = "vimenter",
+  --   config = function()
+  --     require('bookmarks').setup({
+  --       sign_priority = 8, --set bookmark sign priority to cover other sign
+  --       save_file = vim.fn.expand "$home/.bookmarks", -- bookmarks save file path
+  --       keywords = {
+  --         ["@t"] = "☑️ ", -- mark annotation startswith @t ,signs this icon as `todo`
+  --         ["@w"] = "⚠️ ", -- mark annotation startswith @w ,signs this icon as `warn`
+  --         ["@f"] = "⛏ ", -- mark annotation startswith @f ,signs this icon as `fix`
+  --         ["@n"] = " ", -- mark annotation startswith @n ,signs this icon as `note`
+  --       },
+  --       on_attach = function(_)
+  --         local bm = require "bookmarks"
+  --         local map = vim.keymap.set
+  --         map("n", "mm", bm.bookmark_toggle) -- add or remove bookmark at current line
+  --         map("n", "mi", bm.bookmark_ann)    -- add or edit mark annotation at current line
+  --         map("n", "mc", bm.bookmark_clean)  -- clean all marks in local buffer
+  --         map("n", "mn", bm.bookmark_next)   -- jump to next mark in local buffer
+  --         map("n", "mp", bm.bookmark_prev)   -- jump to previous mark in local buffer
+  --         map("n", "ml", bm.bookmark_list)   -- show marked file list in quickfix window
+  --       end
+  --     })
+  --   end
+  -- },
+  {
+    'crusj/bookmarks.nvim',
+    branch = 'main',
+    dependencies = { 'nvim-web-devicons' },
+    event = "vimenter",
+    config = function()
+      require("bookmarks").setup({
+        keymap = {
+          toggle = "ml",
+          add = "mm",
+          delete = "dd",
+          delete_on_virt = "md", -- delete bookmark at virt text line
+        }
+      })
+      require("telescope").load_extension("bookmarks")
+    end
+  }
+  --     {
+  --       "folke/trouble.nvim",
+  --       cmd = "troubletoggle",
+  --     },
+}
