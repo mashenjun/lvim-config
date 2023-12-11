@@ -293,7 +293,27 @@ lvim.plugins = {
       })
       require("telescope").load_extension("bookmarks")
     end
-  }
+  },
+  {
+    'echasnovski/mini.splitjoin',
+    version = '*',
+    config = function()
+      require('mini.splitjoin').setup()
+    end
+  },
+  {
+    'akinsho/git-conflict.nvim',
+    version = "*",
+    config = true
+  },
+  {
+    'f-person/git-blame.nvim',
+    config = function()
+      require('gitblame').setup {
+        enabled = false
+      }
+    end
+  },
   --     {
   --       "folke/trouble.nvim",
   --       cmd = "troubletoggle",
