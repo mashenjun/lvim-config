@@ -19,6 +19,7 @@ vim.opt.relativenumber = false
 vim.opt.foldmethod = "indent"
 vim.opt.foldenable = false
 vim.opt.timeoutlen = 350
+vim.opt.spelllang = 'en'
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
@@ -40,18 +41,18 @@ vim.api.nvim_set_keymap('v', 'p', '"_dP', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<C-k>', ":m .-2<CR>==", { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('v', '<C-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('v', '<C-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
-if vim.loop.os_uname().sysname == "Darwin" then
-  -- https://www.reddit.com/r/vim/comments/qwqygt/vim_seems_to_ignore_meta_key_mappings/
-  vim.api.nvim_set_keymap('n', '∆', ":m .+1<CR>==", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '˚', ":m .-2<CR>==", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('v', '∆', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('v', '˚', ":m '<-1<CR>gv=gv", { noremap = true, silent = true })
-else
-  vim.api.nvim_set_keymap('n', '<A-j>', ":m .+1<CR>==", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '<A-k>', ":m .-2<CR>==", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('v', '<A-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('v', '<A-k>', ":m '<-1<CR>gv=gv", { noremap = true, silent = true })
-end
+-- if vim.loop.os_uname().sysname == "Darwin" then
+--   -- https://www.reddit.com/r/vim/comments/qwqygt/vim_seems_to_ignore_meta_key_mappings/
+--   vim.api.nvim_set_keymap('n', '∆', ":m .+1<CR>==", { noremap = true, silent = true })
+--   vim.api.nvim_set_keymap('n', '˚', ":m .-2<CR>==", { noremap = true, silent = true })
+--   vim.api.nvim_set_keymap('v', '∆', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+--   vim.api.nvim_set_keymap('v', '˚', ":m '<-1<CR>gv=gv", { noremap = true, silent = true })
+-- else
+--   vim.api.nvim_set_keymap('n', '<A-j>', ":m .+1<CR>==", { noremap = true, silent = true })
+--   vim.api.nvim_set_keymap('n', '<A-k>', ":m .-2<CR>==", { noremap = true, silent = true })
+--   vim.api.nvim_set_keymap('v', '<A-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+--   vim.api.nvim_set_keymap('v', '<A-k>', ":m '<-1<CR>gv=gv", { noremap = true, silent = true })
+-- end
 
 -- for buildin plugin setting
 lvim.builtin.treesitter.matchup.enable = true
@@ -203,7 +204,7 @@ end
 
 -- enable gopls serverside logging.
 -- require("lvim.lsp.manager").setup("gopls", {
--- 	cmd = {'gopls', '-logfile=/tmp/gopls.log', '-rpc.trace'},
+--   cmd = { 'gopls', '-logfile=/tmp/gopls.log', '-rpc.trace' },
 -- })
 
 -- Additional Plugins

@@ -240,6 +240,9 @@ lvim.plugins = {
         keyword = "", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
         after = "",
       },
+      search = {
+        pattern = [[\b(KEYWORDS)(\(shenjun\))?:]],
+      }
     }
   },
   {
@@ -285,10 +288,10 @@ lvim.plugins = {
     config = function()
       require("bookmarks").setup({
         keymap = {
-          toggle = "ml",
-          add = "mm",
+          toggle = "<leader><F3>",
+          add = "<F3>",
           delete = "dd",
-          delete_on_virt = "md", -- delete bookmark at virt text line
+          delete_on_virt = "<F3>d", -- delete bookmark at virt text line
         }
       })
       require("telescope").load_extension("bookmarks")
@@ -302,16 +305,85 @@ lvim.plugins = {
     end
   },
   {
-    'akinsho/git-conflict.nvim',
-    version = "*",
-    config = true
-  },
-  {
     'f-person/git-blame.nvim',
     config = function()
       require('gitblame').setup {
         enabled = false
       }
+    end
+  },
+  {
+    'echasnovski/mini.move',
+    version = '*',
+    config = function()
+      if vim.loop.os_uname().sysname == "Darwin" then
+        -- https://www.reddit.com/r/vim/comments/qwqygt/vim_seems_to_ignore_meta_key_mappings/
+        require('mini.move').setup({
+          mappings = {
+            -- Move visual selection in Visual mode. Defaults are Alt (Meta) + hjkl.
+            left = '˙',
+            right = '¬',
+            down = '∆',
+            up = '˚',
+            -- Move current line in Normal mode
+            line_left = '˙',
+            line_right = '¬',
+            line_down = '∆',
+            line_up = '˚',
+          },
+        })
+      else
+        require('mini.move').setup()
+      end
+    end
+  },
+  {
+    'gen740/SmoothCursor.nvim',
+    config = function()
+      require('smoothcursor').setup({
+        autostart = false,
+        fancy = {
+          head = { cursor = "▷", texthl = "SmoothCursor", linehl = nil }, -- false to disable fancy head
+          body = {
+            { cursor = "󰝥", texthl = "SmoothCursorGreen" },
+            { cursor = "󰝥", texthl = "SmoothCursorGreen" },
+            { cursor = "●", texthl = "SmoothCursorGreen" },
+            { cursor = "●", texthl = "SmoothCursorGreen" },
+            { cursor = "•", texthl = "SmoothCursorGreen" },
+            { cursor = ".", texthl = "SmoothCursorGreen" },
+            { cursor = ".", texthl = "SmoothCursorGreen" },
+          },
+          tail = { cursor = nil, texthl = "SmoothCursor" } -- false to disable fancy tail
+        },
+      })
+    end
+  },
+  {
+    'chentoast/marks.nvim',
+    config = function()
+      require('marks').setup({})
+    end
+  },
+  {
+    'echasnovski/mini.bracketed',
+    version = '*',
+    config = function()
+      require("mini.bracketed").setup({
+        buffer     = { suffix = 'b', options = {} },
+        comment    = { suffix = 'c', options = {} },
+        conflict   = { suffix = 'x', options = {} },
+        diagnostic = { suffix = 'd', options = {} },
+        file       = { suffix = 'f', options = {} },
+        indent     = { suffix = 'i', options = {} },
+        jump       = { suffix = 'j', options = {} },
+        location   = { suffix = 'l', options = {} },
+        oldfile    = { suffix = 'o', options = {} },
+        quickfix   = { suffix = 'q', options = {} },
+        treesitter = { suffix = 't', options = {} },
+        undo       = { suffix = '', options = {} },
+        window     = { suffix = 'w', options = {} },
+        yank       = { suffix = 'y', options = {} },
+      })
     end
   },
   --     {
