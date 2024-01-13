@@ -31,9 +31,12 @@ lvim.plugins = {
     -- optional; default configuration will be used if setup isn't called.
     config = function()
       require("everforest").setup({
-        background = "medium",
+        background = "hard",
         disable_italic_comments = true,
         italics = false,
+        colours_override = function(palette)
+          palette.bg1 = "#39454a"
+        end
       })
     end,
   },
@@ -112,25 +115,25 @@ lvim.plugins = {
     ft = { "markdown" }
     -- build = "yay -s glow"
   },
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    opts = {
-      modes = {
-        char = {
-          enabled = false
-        }
-      }
-    },
-    -- stylua: ignore
-    keys = {
-      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "flash" },
-      { "s",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "flash treesitter" },
-      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "remote flash" },
-      { "r",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "treesitter search" },
-      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "toggle flash search" },
-    }
-  },
+  -- {
+  --   "folke/flash.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     modes = {
+  --       char = {
+  --         enabled = false
+  --       }
+  --     }
+  --   },
+  --   -- stylua: ignore
+  --   keys = {
+  --     { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "flash" },
+  --     { "s",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "flash treesitter" },
+  --     { "r",     mode = "o",               function() require("flash").remote() end,            desc = "remote flash" },
+  --     { "r",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "treesitter search" },
+  --     { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "toggle flash search" },
+  --   }
+  -- },
   {
     "crispgm/nvim-go",
     enabled = true,
@@ -386,8 +389,44 @@ lvim.plugins = {
       })
     end
   },
-  --     {
-  --       "folke/trouble.nvim",
-  --       cmd = "troubletoggle",
-  --     },
+  {
+    "kevinhwang91/nvim-ufo",
+    event = "BufReadPost",
+    dependencies = {
+      "kevinhwang91/promise-async",
+      {
+        "luukvbaal/statuscol.nvim",
+        config = function()
+          local builtin = require("statuscol.builtin")
+          require("statuscol").setup({
+            relculright = true,
+            segments = {
+              { text = { builtin.foldfunc },      click = "v:lua.ScFa" },
+              { text = { "%s" },                  click = "v:lua.ScSa" },
+              { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+            },
+          })
+        end,
+      },
+    },
+    opts = {
+      provider_selector = function()
+        return { "treesitter", "indent" }
+      end,
+    },
+
+    init = function()
+      vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+      vim.o.foldcolumn = "1" -- '0' is not bad
+      vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+      vim.keymap.set("n", "zR", function()
+        require("ufo").openAllFolds()
+      end)
+      vim.keymap.set("n", "zM", function()
+        require("ufo").closeAllFolds()
+      end)
+    end,
+  }
 }
