@@ -16,7 +16,7 @@ lvim.colorscheme = "everforest"
 -- custom settings
 lvim.transparent_window = true
 vim.opt.relativenumber = false
-vim.opt.foldcolumn = '1' -- '0' is not bad
+vim.opt.foldcolumn = '0' -- '0' is not bad
 vim.opt.foldmethod = "indent"
 vim.opt.foldenable = true
 
